@@ -1,0 +1,27 @@
+{
+    "id": "699ADA86",
+    "path": "C:/R_Projects/Project-Kim-HPC-RNAseq/analysis/DESeq.R",
+    "project_path": "analysis/DESeq.R",
+    "type": "r_source",
+    "hash": "349617751",
+    "contents": "",
+    "dirty": false,
+    "created": 1729787589053.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "177,0",
+        "scrollLine": "157"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1729790835,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1729790835736,
+    "read_only": false,
+    "read_only_alternatives": []
+}

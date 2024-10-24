@@ -1,0 +1,27 @@
+{
+    "id": "F383C8B2",
+    "path": "C:/R_Projects/Project-Kim-HPC-RNAseq/analysis/initial analysis.R",
+    "project_path": "analysis/initial analysis.R",
+    "type": "r_source",
+    "hash": "40767101",
+    "contents": "",
+    "dirty": false,
+    "created": 1729784700082.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "109,0",
+        "scrollLine": "92"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1729790919,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1729790919300,
+    "read_only": false,
+    "read_only_alternatives": []
+}
