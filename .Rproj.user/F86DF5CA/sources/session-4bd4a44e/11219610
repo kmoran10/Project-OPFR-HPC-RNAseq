@@ -1,0 +1,27 @@
+{
+    "id": "11219610",
+    "path": "C:/R_Projects/Project-Kim-HPC-RNAseq/analysis/06_VolcanoPlot_TREATMENT.R",
+    "project_path": "analysis/06_VolcanoPlot_TREATMENT.R",
+    "type": "r_source",
+    "hash": "3680520582",
+    "contents": "",
+    "dirty": false,
+    "created": 1730233663336.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "86,0",
+        "scrollLine": "66"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1730234782,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1730234782919,
+    "read_only": false,
+    "read_only_alternatives": []
+}
