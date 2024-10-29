@@ -130,10 +130,40 @@ saveRDS(q.dl,("results/limma_vdl_cutoff5_2000_tworand_TREATMENT.RDS"))
 
 #### done random sampling - don't redo unless needed ####
 
+q.dl <- readRDS("results/limma_vdl_cutoff5_2000_tworand_TREATMENT.RDS")
+
+
+##### Analysis pulling genes out for each contrast 
+tmp1 <- contrasts.fit(efit.dl2, coef = 1) # 
+
+
+#keep in mind these P.Values ARE the eFDRs
+
+TREATMENT_limma_results <- topTable(tmp1, sort.by = "P", n = Inf) %>% 
+  rownames_to_column('symbol') %>% 
+  dplyr::select(symbol,logFC,P.Value)
+
+TREATMENT_limma_results1 <- TREATMENT_limma_results %>% 
+  left_join(grcm38, by = "symbol") %>% 
+  filter(!is.na(symbol)) %>% 
+  filter(!is.na(entrez)) %>%
+  select(symbol,logFC,P.Value,chr,entrez,start,end,biotype,description)
 
 
 
+saveRDS(TREATMENT_limma_results1,"results/TREATMENT_limma_results.RDS")
 
+
+TREATMENT_limma_results1 <- readRDS("results/TREATMENT_limma_results.RDS")
+
+TREATMENT_limma_results1 %>% 
+  filter(., P.Value<0.05) %>% 
+  filter(., P.Value != 0) %>%
+  summarise(.,Up = sum(logFC>0.2),
+            Down = sum(logFC<0.2)) %>% 
+  mutate(.,Total = Up + Down) 
+
+hist(TREATMENT_limma_results1$logFC)
 
 
 
