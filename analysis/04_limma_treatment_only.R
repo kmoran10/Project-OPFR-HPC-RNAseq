@@ -22,6 +22,9 @@ coldata <- id %>% column_to_rownames(.,var = "id")
 
 coldata$group <- paste0(coldata$treatment, "_", coldata$E_level)
 
+dlNorm$KT021 <- NULL
+coldata <- coldata[-21,]
+## REMOVING KT021  since marked as outlier.
 
 all(rownames(coldata) == colnames(dlNorm))
 
@@ -164,12 +167,6 @@ TREATMENT_limma_results1 %>%
   mutate(.,Total = Up + Down) 
 
 hist(TREATMENT_limma_results1$logFC)
-
-
-
-
-
-
 
 
 

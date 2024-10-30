@@ -42,8 +42,13 @@ dc$diffexpressed[dc$logFC < -0.2 & dc$P.Value < 0.05] <- "DOWN"
 
 dcx <- dc %>% filter(.,logFC >= .4)%>% filter(P.Value < 0.05)
 dcxx <- dc %>% filter(.,logFC <= -.45) %>% filter(P.Value < 0.05)
+
+dcxxx<- dc %>%
+  filter(logFC >= 0.2 | logFC <= -0.2) %>%
+  arrange(P.Value) %>%
+  slice_head(n = 10)
+
 dc$log10 <- ifelse(dc$log10 == Inf, 4,dc$log10)
-# dcx <- dc %>% filter(.,abs(logFC) >= 1.5) %>% filter(P.Value < 0.05) 
 
 
 
@@ -58,8 +63,9 @@ vp_TREATMENT <- ggplot(data = dc,
   geom_vline(xintercept=c(-.2,.2),lty=4,col="black",lwd=0.8) +
 #  geom_vline(xintercept=c(-1,1),lty=4,col="black",lwd=0.8) +
   geom_hline(yintercept = 1.301,lty=4,col="black",lwd=0.8) +
-  geom_text_repel(data = dcx, aes(x = logFC, y = -log10(P.Value),label = symbol), color = "black",vjust =1, hjust =.45)+
-  geom_text_repel(data = dcxx, aes(x = logFC, y = -log10(P.Value),label = symbol), color = "black", hjust = 1, vjust = -.55)+
+#  geom_text_repel(data = dcx, aes(x = logFC, y = -log10(P.Value),label = symbol), color = "black",vjust =1, hjust =.45)+
+#  geom_text_repel(data = dcxx, aes(x = logFC, y = -log10(P.Value),label = symbol), color = "black", hjust = 1, vjust = -.55)+
+  geom_text_repel(data = dcxxx, aes(x = logFC, y = -log10(P.Value),label = symbol), color = "black", hjust = 1, vjust = 0)+
   labs(title = "A. Differential Gene Expression in HPC",
        x="log2 Fold Change",
        y=bquote(~-Log[10]~italic(eFDR)))+
@@ -84,4 +90,16 @@ vp_TREATMENT <- ggplot(data = dc,
   )
 
 vp_TREATMENT #875 x 550
+
+
+top25sigdiff_genes_TREATMENT <- y1a %>% 
+  filter(logFC >= 0.2 | logFC <= -0.2) %>%
+  arrange(P.Value) %>% 
+  select(symbol, logFC, P.Value, chr, description) %>% 
+  head(25)
+
+write.csv(top25sigdiff_genes_TREATMENT,"results/results_tables/top25sigdiff_genes_TREATMENT.csv", row.names = F)
+
+
+
 

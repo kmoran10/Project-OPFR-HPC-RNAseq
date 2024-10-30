@@ -1,0 +1,27 @@
+{
+    "id": "EFFFCF7D",
+    "path": "C:/R_Projects/Project-Kim-HPC-RNAseq/analysis/07_WGCNA_TREATMENT.R",
+    "project_path": "analysis/07_WGCNA_TREATMENT.R",
+    "type": "r_source",
+    "hash": "2947970129",
+    "contents": "",
+    "dirty": false,
+    "created": 1730297758115.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "409,0",
+        "scrollLine": "400"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1730316078,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1730316078726,
+    "read_only": false,
+    "read_only_alternatives": []
+}
