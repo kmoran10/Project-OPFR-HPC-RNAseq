@@ -22,7 +22,39 @@ coldata <- id %>% column_to_rownames(.,var = "id")
 
 coldata$group <- paste0(coldata$treatment, "_", coldata$E_level)
 
+# removing KT021 as outlier
+dlNorm$KT021 <- NULL
+coldata <- coldata[-21,]
+## REMOVING KT021  since marked as outlier.
 
 all(rownames(coldata) == colnames(dlNorm))
 
 ###
+
+d = apply(dlNorm, 2, as.numeric)
+dim(d)
+
+d0 = DGEList(d, group = coldata$group)
+dim(d0)
+rownames(d0) <- rownames(dlNorm)
+d0 <- calcNormFactors(d0)
+
+cutoff <- 5
+drop <- which(apply(cpm(d0), 1, max) < cutoff)
+dge.dl <- d0[-drop,]
+dim(dge.dl)
+
+dge.dl$samples$group
+
+coldata %>%
+  filter(E_level == "low") 
+
+
+
+
+
+
+
+
+
+
