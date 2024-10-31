@@ -365,6 +365,7 @@ library(AnnotationDbi)
 library(annotables)
 grcm38 <- grcm38
 source("functions/gettop10GO.R")
+source("functions/gettop10GO_low_sensitivity.R")
 
 #1st - pull TREATMENT_limma_results1 <- readRDS("results/TREATMENT_limma_results.RDS")
 #2nd - filter genes that are only in modules of interest - call them MEcolor
@@ -390,6 +391,10 @@ MEallcolors2 <- left_join(MEallcolors, gene.signf.corr2, by = "symbol") %>%
 
 write.csv(MEallcolors2, "results/results_tables/MEallcolors_TREATMENT.csv")
 
+module.membership.measure2 <- as.data.frame(module.membership.measure)
+module.membership.measure2 <- tibble::rownames_to_column(module.membership.measure2, "module")
+
+
 
 # salmon
 MEsalmon <- MEallcolors2 %>% 
@@ -404,15 +409,31 @@ write.csv(MEsalmon.limma, "results/results_tables/TREATMENT_MEsalmon_limma.csv")
 
 
 ## GO ANALYSIS OF salmon MODULE
-gettop10GO(MEsalmon.limma, my_showCategory) %>% 
-  mutate(comparison = "Oil - OPFR") -> GOterms_TREATMENT_salmon
-
-write.csv(GOterms_TREATMENT_salmon, "results/GOterms_TREATMENT_salmon.csv")
+# gettop10GO_low_sensitivity(MEsalmon.limma, my_showCategory) %>% 
+#   mutate(comparison = "Oil - OPFR") -> GOterms_TREATMENT_salmon
+##### NOT WORKING
+## works with other modules 
+## LIKELY because module is too small
+## THUS, will simply report high MM genes in module and discuss their functions individually.
 
 ## HIGHEST MM OF salmon MODULE
-MEsalmon.limma %>% 
-  arrange(gene.signif.corr.pval) %>% 
-  head(5)
+MMsalmon <- module.membership.measure2 %>% 
+  filter(module == "MEsalmon") %>% 
+  gather(., symbol, MM)
+MMsalmon <- MMsalmon[-1,]
+MMsalmon2 <- grcm38 %>% 
+  select(symbol, chr, description) %>% 
+  left_join(.,MMsalmon, by = "symbol")
+  
+  
+MMsalmontop15 <- MMsalmon2 %>% 
+  arrange(desc(MM)) %>% 
+  head(15)
+
+
+
+
+
 
 
 

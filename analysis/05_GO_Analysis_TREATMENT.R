@@ -35,4 +35,4 @@ library(tidyverse)
 
 TREAT <- readRDS("results/TREATMENT_limma_results.RDS")
 
-TREAT %>% filter(symbol == "Fkbp5")
+TREAT %>% filter(symbol == "Zif268")

@@ -1,0 +1,20 @@
+# pink
+MEpink <- MEallcolors2 %>% 
+  filter(MEcolor == "pink")
+
+MEpink.limma <- TREATMENT_limma_results1 %>% 
+  left_join(MEpink, by = "symbol") %>%
+  filter(!is.na(MEcolor)) %>% 
+  select(1,2,3,4,9,11,12)
+
+
+
+## GO ANALYSIS OF pink MODULE
+gettop10GO_low_sensitivity(MEpink.limma, my_showCategory) %>% 
+  mutate(comparison = "Oil - OPFR") -> GOterms_TREATMENT_pink
+
+
+## HIGHEST MM OF pink MODULE
+MEpink.limma %>% 
+  arrange(gene.signif.corr.pval) %>% 
+  head(5)
