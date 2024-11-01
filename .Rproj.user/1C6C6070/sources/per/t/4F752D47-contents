@@ -31,7 +31,6 @@ all(rownames(coldata) == colnames(dlNorm))
 
 ###
 
-
 d = apply(dlNorm, 2, as.numeric)
 dim(d)
 
@@ -47,17 +46,16 @@ dim(dge.dl)
 
 dge.dl$samples$group
 
-dge.dl_OPFR <- dge.dl[, dge.dl$samples$group %in% c("OPFR_M", "OPFR_low", "OPFR_high")]
-dge.dl_OPFR$samples$group <- droplevels(dge.dl_OPFR$samples$group)
-dge.dl_OPFR$samples$group
-dge.dl<- dge.dl_OPFR
+dge.dl_M <- dge.dl[, dge.dl$samples$group %in% c("Oil_M", "OPFR_M")]
+dge.dl_M$samples$group <- droplevels(dge.dl_M$samples$group)
+dge.dl_M$samples$group
+dge.dl<- dge.dl_M
 dge.dl$samples$group
 
 
 coldata %>%
-  filter(treatment == "OPFR") %>% 
+  filter(E_level == "low") %>% 
   dplyr::select(subject, group) -> var_info
-
 
 #shortening used data to subset
 
@@ -68,8 +66,7 @@ all(rownames(var_info) == colnames(dlNorm)) #check
 
 
 coldata$group %>% 
-  factor(.,levels = c("OPFR_M","OPFR_low","OPFR_high")) -> group.dl
-
+  factor(.,levels = c("Oil_M","OPFR_M")) -> group.dl
 
 design.dl <- model.matrix(~ 0 + group.dl)
 colnames(design.dl) -> mycolnames
@@ -79,11 +76,8 @@ v.dl = voom(dge.dl, design.dl, plot = F)
 vfit.dl = lmFit(v.dl, design.dl)
 
 
-contr.matrix <- makeContrasts(group.dlOPFR_M-group.dlOPFR_low,
-                              group.dlOPFR_M-group.dlOPFR_high,
-                              group.dlOPFR_low-group.dlOPFR_high,
+contr.matrix <- makeContrasts(group.dlOil_M-group.dlOPFR_M,
                               levels = design.dl)
-
 
 
 vfit.dl2 <- contrasts.fit(vfit.dl, contr.matrix)
@@ -93,17 +87,15 @@ efit.dl2 = eBayes(vfit.dl2)
 p.dl.limma2 = efit.dl2[["p.value"]]
 head(p.dl.limma2)
 
-saveRDS(v.dl, "results/limma_vdl_OPFR.RDS")
-
+saveRDS(v.dl, "results/limma_vdl_Elevel_M.RDS")
 
 
 ### random sampling - don't redo unless needed ####
-####### THIS may not work (R=5000) with lower sample count, but probably should?
+####### THIS WILL LIKELY NOT WORK SINCE ONLY HAVE FEW SAMPLES.
 
 
-R = 5000
+R = 2500
 set.seed(312)
-
 
 #to store pvalues in
 p.dl.rand = vector('list',length = R)
@@ -141,62 +133,61 @@ q.dl <- Reduce(`+`, lapply(p.dl.rand, \(x) {
 }))
 
 head(q.dl)
+
 q.dl = q.dl / R
+
 q.dl = as.data.frame(q.dl)
 
 
 efit.dl2[["p.value"]] <- q.dl
+
 sum(duplicated(row.names(efit.dl2$coefficients)))
 
-##### Analysis pulling genes out for each contrast 
-tmp1 <- contrasts.fit(efit.dl2, coef = 1) 
-tmp2 <- contrasts.fit(efit.dl2, coef = 2) 
-tmp3 <- contrasts.fit(efit.dl2, coef = 3) 
-
-limma_list <- list()
-
-topTable(tmp1, sort.by = "P", n = Inf) %>% 
-  rownames_to_column('symbol') %>% 
-  left_join(grcm38) %>%
-  filter(!is.na(symbol)) %>% 
-  dplyr::select(symbol,logFC,P.Value) -> limma_list$M_v_low
-
-topTable(tmp2, sort.by = "P", n = Inf) %>% 
-  rownames_to_column('symbol') %>% 
-  left_join(grcm38) %>%
-  filter(!is.na(symbol)) %>% 
-  dplyr::select(symbol,logFC,P.Value) -> limma_list$M_v_high
-
-topTable(tmp3, sort.by = "P", n = Inf) %>% 
-  rownames_to_column('symbol') %>% 
-  left_join(grcm38) %>%
-  filter(!is.na(symbol)) %>% 
-  dplyr::select(symbol,logFC,P.Value) -> limma_list$low_v_high
 
 
-saveRDS(limma_list,"results/OPFR_limma_results.RDS")
-
+saveRDS(q.dl,("results/limma_vdl_cutoff5_2000_tworand_Elevel_M.RDS"))
 
 #### done random sampling - don't redo unless needed ####
 
 
+q.dl <- readRDS("results/limma_vdl_cutoff5_2000_tworand_Elevel_M.RDS")
+
+
+##### Analysis pulling genes out for each contrast 
+tmp1 <- contrasts.fit(efit.dl2, coef = 1) # 
+
+
 #keep in mind these P.Values ARE the eFDRs
-####
 
-limma_list <- readRDS("results/OPFR_limma_results.RDS") %>% 
-  map(~distinct(.)) %>% 
-  map(~filter(.,abs(logFC) >= 0.2)) %>%
-  map(~filter(.,P.Value <0.05)) %>%
-  map(~ left_join(., grcm38 %>% dplyr::select(symbol, entrez))) %>% 
-  map(~filter(.,!is.na(entrez))) 
+Elevel_M_limma_results <- topTable(tmp1, sort.by = "P", n = Inf) %>% 
+  rownames_to_column('symbol') %>% 
+  dplyr::select(symbol,logFC,P.Value)
 
-#quick look at number of genes
-limma_list %>% map(~filter(., P.Value<0.05)) %>% 
-  map(~summarise(.,Up = sum(logFC>0.2),
-                 Down = sum(logFC<0.2))) %>% 
-  map(~mutate(.,Total = Up + Down))
+Elevel_M_limma_results1 <- Elevel_M_limma_results %>% 
+  left_join(grcm38, by = "symbol") %>% 
+  filter(!is.na(symbol)) %>% 
+  filter(!is.na(entrez)) %>%
+  select(symbol,logFC,P.Value,chr,entrez,start,end,biotype,description)
 
-limma_list %>% map(~hist(.$logFC))
+
+
+saveRDS(Elevel_M_limma_results1,"results/Elevel_M_limma_results.RDS")
+
+
+Elevel_M_limma_results1 <- readRDS("results/Elevel_M_limma_results.RDS")
+
+Elevel_M_limma_results1 %>% 
+  filter(., P.Value<0.05) %>% 
+  filter(., P.Value != 0) %>%
+  summarise(.,Up = sum(logFC>0.2),
+            Down = sum(logFC<0.2)) %>% 
+  mutate(.,Total = Up + Down) 
+
+hist(Elevel_M_limma_results1$logFC)
+
+
+
+
 
 
 
