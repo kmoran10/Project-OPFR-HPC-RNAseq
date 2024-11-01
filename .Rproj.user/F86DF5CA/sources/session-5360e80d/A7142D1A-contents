@@ -1,4 +1,4 @@
-### STILL NEED TO RUN
+
 # limma 
 
 library(limma)
@@ -141,62 +141,62 @@ q.dl <- Reduce(`+`, lapply(p.dl.rand, \(x) {
 }))
 
 head(q.dl)
-
 q.dl = q.dl / R
-
 q.dl = as.data.frame(q.dl)
 
 
 efit.dl2[["p.value"]] <- q.dl
-
 sum(duplicated(row.names(efit.dl2$coefficients)))
 
+##### Analysis pulling genes out for each contrast 
+tmp1 <- contrasts.fit(efit.dl2, coef = 1) 
+tmp2 <- contrasts.fit(efit.dl2, coef = 2) 
+tmp3 <- contrasts.fit(efit.dl2, coef = 3) 
 
-saveRDS(q.dl,("results/limma_vdl_cutoff5_2000_tworand_OPFR.RDS"))
+limma_list <- list()
+
+topTable(tmp1, sort.by = "P", n = Inf) %>% 
+  rownames_to_column('symbol') %>% 
+  left_join(grcm38) %>%
+  filter(!is.na(symbol)) %>% 
+  dplyr::select(symbol,logFC,P.Value) -> limma_list$M_v_low
+
+topTable(tmp2, sort.by = "P", n = Inf) %>% 
+  rownames_to_column('symbol') %>% 
+  left_join(grcm38) %>%
+  filter(!is.na(symbol)) %>% 
+  dplyr::select(symbol,logFC,P.Value) -> limma_list$M_v_high
+
+topTable(tmp3, sort.by = "P", n = Inf) %>% 
+  rownames_to_column('symbol') %>% 
+  left_join(grcm38) %>%
+  filter(!is.na(symbol)) %>% 
+  dplyr::select(symbol,logFC,P.Value) -> limma_list$low_v_high
+
+
+saveRDS(limma_list,"results/OPFR_limma_results.RDS")
 
 
 #### done random sampling - don't redo unless needed ####
 
 
-q.dl <- readRDS("results/limma_vdl_cutoff5_2000_tworand_OPFR.RDS")
-
-
-##### Analysis pulling genes out for each contrast 
-tmp1 <- contrasts.fit(efit.dl2, coef = 1) # 
-
-
 #keep in mind these P.Values ARE the eFDRs
+####
 
-OPFR_limma_results <- topTable(tmp1, sort.by = "P", n = Inf) %>% 
-  rownames_to_column('symbol') %>% 
-  dplyr::select(symbol,logFC,P.Value)
+limma_list <- readRDS("results/OPFR_limma_results.RDS") %>% 
+  map(~distinct(.)) %>% 
+  map(~filter(.,abs(logFC) >= 0.2)) %>%
+  map(~filter(.,P.Value <0.05)) %>%
+  map(~ left_join(., grcm38 %>% dplyr::select(symbol, entrez))) %>% 
+  map(~filter(.,!is.na(entrez))) 
 
-OPFR_limma_results1 <- OPFR_limma_results %>% 
-  left_join(grcm38, by = "symbol") %>% 
-  filter(!is.na(symbol)) %>% 
-  filter(!is.na(entrez)) %>%
-  select(symbol,logFC,P.Value,chr,entrez,start,end,biotype,description)
+#quick look at number of genes
+limma_list %>% map(~filter(., P.Value<0.05)) %>% 
+  map(~summarise(.,Up = sum(logFC>0.2),
+                 Down = sum(logFC<0.2))) %>% 
+  map(~mutate(.,Total = Up + Down))
 
-
-
-saveRDS(OPFR_limma_results1,"results/OPFR_limma_results.RDS")
-
-
-OPFR_limma_results1 <- readRDS("results/OPFR_limma_results.RDS")
-
-### will need to adjust for 3 group OPFR analysis
-
-OPFR_limma_results1 %>% 
-  filter(., P.Value<0.05) %>% 
-  filter(., P.Value != 0) %>%
-  summarise(.,Up = sum(logFC>0.2),
-            Down = sum(logFC<0.2)) %>% 
-  mutate(.,Total = Up + Down) 
-
-hist(OPFR_limma_results1$logFC)
-
-
-
+limma_list %>% map(~hist(.$logFC))
 
 
 
