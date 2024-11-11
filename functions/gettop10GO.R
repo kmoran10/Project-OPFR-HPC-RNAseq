@@ -1,5 +1,5 @@
 my_ont = "BP"
-my_showCategory = 100
+my_showCategory = 10
 
 gettop10GO <- function(limma_df,my_showCategory = 10){
   go_df_up <- limma_df %>% 
