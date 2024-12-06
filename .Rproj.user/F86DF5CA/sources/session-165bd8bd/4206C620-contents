@@ -1,0 +1,38 @@
+
+# TREATMENT only GO Analysis
+
+library(limma)
+library(edgeR)
+library(Mus.musculus)
+organism = 'org.Mm.eg.db'
+library(organism, character.only = TRUE)
+library(biomaRt)
+library(AnnotationDbi)
+library(pheatmap)
+library(annotables)
+library(clusterProfiler)
+library(enrichplot)
+library(DOSE)
+library(tidyverse)
+grcm38 # mouse genes
+
+
+source("functions/gettop10GO.R")
+
+my_logFC_threshold = 0.2
+
+TREAT <- readRDS("results/TREATMENT_limma_results.RDS")
+
+gettop10GO(TREAT, my_showCategory) %>% 
+  mutate(comparison = "Oil - OPFR") -> top10_GOterms_TREATMENT
+
+
+write.csv(top10_GOterms_TREATMENT,"results/results_tables/top100_GOterms_TREATMENT.csv", row.names = F)
+
+
+#### 
+library(tidyverse)
+
+TREAT <- readRDS("results/TREATMENT_limma_results.RDS")
+
+TREAT %>% filter(symbol == "Zif268")

@@ -30,10 +30,10 @@ dc <- y1a %>% mutate(contrast = "Oil vs. OPFR") %>% mutate(log10 = -log10(P.Valu
 
 
 dc$diffexpressed <- "NO"
-# if log2Foldchange > 0.6 and pvalue < 0.05, set as "UP" 
+# if log2Foldchange > 0.2 and pvalue < 0.05, set as "UP" 
 dc$diffexpressed[dc$logFC > 0.2 & dc$P.Value < 0.05] <- "UP"
 
-# if log2Foldchange < -0.6 and pvalue < 0.05, set as "DOWN"
+# if log2Foldchange < -0.2 and pvalue < 0.05, set as "DOWN"
 dc$diffexpressed[dc$logFC < -0.2 & dc$P.Value < 0.05] <- "DOWN"
 
 

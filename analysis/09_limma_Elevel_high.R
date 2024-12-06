@@ -177,7 +177,7 @@ Elevel_high_limma_results1 <- readRDS("results/Elevel_high_limma_results.RDS")
 
 Elevel_high_limma_results1 %>% 
   filter(., P.Value<0.05) %>% 
-  filter(., P.Value != 0) %>%
+#  filter(., P.Value != 0) %>%
   summarise(.,Up = sum(logFC>0.2),
             Down = sum(logFC<0.2)) %>% 
   mutate(.,Total = Up + Down) 
