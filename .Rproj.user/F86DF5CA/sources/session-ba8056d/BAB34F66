@@ -1,27 +1,27 @@
 {
-    "id": "4268F333",
-    "path": "C:/R_Projects/Project-Kim-HPC-RNAseq/analysis/14_genes_of_interest.R",
-    "project_path": "analysis/14_genes_of_interest.R",
+    "id": "BAB34F66",
+    "path": "C:/R_Projects/Project-Kim-HPC-RNAseq/analysis/10_VolcanoPlot_Elevel_low.R",
+    "project_path": "analysis/10_VolcanoPlot_Elevel_low.R",
     "type": "r_source",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1733436331981.0,
+    "created": 1733508712261.0,
     "source_on_save": false,
-    "relative_order": 2,
+    "relative_order": 4,
     "properties": {
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "8,13",
-        "scrollLine": "1"
+        "cursorPosition": "64,46",
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1733503167,
+    "lastKnownWriteTime": 1733508949,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1733503167230,
+    "last_content_update": 1733508949854,
     "read_only": false,
     "read_only_alternatives": []
 }

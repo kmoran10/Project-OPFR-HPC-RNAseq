@@ -653,3 +653,11 @@ MMblack15 <- MMblack2 %>%
 
 
 write.csv(MMblack15, "results/results_tables/MMblack15.csv")
+
+
+
+
+
+
+# gonna need numbers for these -- module membership - salmon, pink, black
+# correlation.one <- cor(data$x[data$category=="One"], data$y[data$category=="One"], method = 'pearson')
