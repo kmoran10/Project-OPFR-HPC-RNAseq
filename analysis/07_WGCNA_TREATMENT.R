@@ -294,9 +294,12 @@ colnames(heatmap.data2) <- new_column_names
 
 names(heatmap.data2)
 
+heatmap.data_TREAT_only <- heatmap.data
 
 ## IN THE FOLLOWING: POSITIVE VALUES MEAN ME EXPRESSION IN HIGHER IN TRAIT CODED WITH 1 COMPARED TO TRAIT CODED WITH 0 - specifically positive = higher in OPFR
 ### SAVE 550x800
+
+
 CorLevelPlot(heatmap.data2,
              x = names(heatmap.data2)[15:15], #trait data
              y = names(heatmap.data2)[1:14], #ME data
@@ -490,7 +493,7 @@ write.csv(MMsalmontop15, "results/results_tables/MMsalmon15.csv")
 
 traits <- colData %>% 
   mutate(treatment_bin = ifelse(grepl('OPFR', treatment), 1, 0)) %>% 
-  select(7)
+  select(6)
 
 
 colData$E_level_bin <- factor(colData$E_level, levels = c("M", "low", "high"))
@@ -660,4 +663,15 @@ write.csv(MMblack15, "results/results_tables/MMblack15.csv")
 
 
 # gonna need numbers for these -- module membership - salmon, pink, black
+
+lms <- lm(MEsalmon ~ treatment_bin, heatmap.data_TREAT_only)
+summary(lms)
+
+lmp <- lm(MEpink ~ OPFR_M, heatmap.data)
+summary(lmp)
+
+lmb <- lm(MEblack ~ Oil_high, heatmap.data)
+summary(lmb)
+
 # correlation.one <- cor(data$x[data$category=="One"], data$y[data$category=="One"], method = 'pearson')
+
