@@ -526,9 +526,9 @@ colnames(heatmap.data2) <- new_column_names
 names(heatmap.data2)
 
 
-#1400x850
+#1400x800
 CorLevelPlot(heatmap.data2,
-             x = names(heatmap.data2)[15:20],
+             x = names(heatmap.data2)[15:21],
              y = names(heatmap.data2)[1:14],
              col = c("skyblue", "lightblue", "white", "pink", "hotpink"),
              main = "WGCNA Module Eigengene Comparisons",
