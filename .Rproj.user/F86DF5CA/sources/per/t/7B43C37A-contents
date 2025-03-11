@@ -1,6 +1,14 @@
 
 # specific gene investigations 
 
+
+
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library(WGCNA)
+
+
 TREAT <- readRDS("results/TREATMENT_limma_results.RDS")
 males <- readRDS("results/Elevel_M_limma_results.RDS")
 low <- readRDS("results/Elevel_low_limma_results.RDS")
@@ -77,6 +85,13 @@ oil$M_v_low %>% filter(symbol == "Esrra") #no
 oil$M_v_high %>% filter(symbol == "Esrra") #no
 oil$low_v_high %>% filter(symbol == "Esrra") #no
 ## kinda weird that in oil animals, there is no diff in Esrra between e-level??
+
+
+oil$M_v_low %>% filter(symbol == "Esrrb") #no
+oil$M_v_high %>% filter(symbol == "Esrrb") #no
+oil$low_v_high %>% filter(symbol == "Esrrb") #no
+## kinda weird that in oil animals, there is no diff in Esrr between e-level??
+
 
 opfr$M_v_low %>% filter(symbol == "Esrra") #no
 opfr$M_v_high %>% filter(symbol == "Esrra") #no

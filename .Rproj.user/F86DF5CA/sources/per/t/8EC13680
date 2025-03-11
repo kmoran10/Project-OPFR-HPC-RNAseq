@@ -1,0 +1,27 @@
+{
+    "id": "8EC13680",
+    "path": "C:/R_Projects/Project-Kim-HPC-RNAseq/analysis/14_genes_of_interest.R",
+    "project_path": "analysis/14_genes_of_interest.R",
+    "type": "r_source",
+    "hash": "589338676",
+    "contents": "",
+    "dirty": false,
+    "created": 1741720825700.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "328,33",
+        "scrollLine": "310"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1741723030,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1741723030741,
+    "read_only": false,
+    "read_only_alternatives": []
+}
