@@ -8,7 +8,7 @@
     "dirty": false,
     "created": 1743701722728.0,
     "source_on_save": false,
-    "relative_order": 4,
+    "relative_order": 2,
     "properties": {
         "expression": "GO_top_genes",
         "caption": "GO_top_genes",
