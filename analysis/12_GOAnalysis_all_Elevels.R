@@ -199,7 +199,7 @@ result_with_desc.he
 
 GO_top_genes.he <- result_with_desc.he %>%
   mutate(
-    treat_data = map(geneID, ~ low %>% filter(symbol == .x))
+    treat_data = map(geneID, ~ high %>% filter(symbol == .x))
   )%>%
   unnest(treat_data, keep_empty = TRUE)
 
@@ -252,7 +252,7 @@ result_with_desc.m
 
 GO_top_genes.m <- result_with_desc.m %>%
   mutate(
-    treat_data = map(geneID, ~ low %>% filter(symbol == .x))
+    treat_data = map(geneID, ~ males %>% filter(symbol == .x))
   )%>%
   unnest(treat_data, keep_empty = TRUE)
 
