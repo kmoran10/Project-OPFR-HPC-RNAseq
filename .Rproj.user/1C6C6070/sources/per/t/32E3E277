@@ -1,0 +1,26 @@
+{
+    "id": "32E3E277",
+    "path": "C:/R_Projects/Project-Kim-HPC-RNAseq/analysis/10_VolcanoPlot_Elevel_low.R",
+    "project_path": "analysis/10_VolcanoPlot_Elevel_low.R",
+    "type": "r_source",
+    "hash": "2080207912",
+    "contents": "",
+    "dirty": false,
+    "created": 1762380233626.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "88,24",
+        "scrollLine": "53"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1762385486,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1762385486993,
+    "read_only": false,
+    "read_only_alternatives": []
+}
