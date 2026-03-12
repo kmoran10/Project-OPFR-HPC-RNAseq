@@ -1,6 +1,6 @@
 
 # TREATMENT only WGCNA
-# actually, with the way WGCNA works -- this can be for treatment then 6-pairwise right after, right??
+  # actually, with the way WGCNA works -- this can be for treatment then 6-pairwise right after, right??
 
 # BiocManager::install("")
 
@@ -171,7 +171,7 @@ grid.arrange(a1, a2, nrow = 2)
 # power 9 or 10 - maybe even 8-12
 # start with 9
 # try cranking it up to 12 -- this is likely going to overfit, have low number of MEs. let's see.
-# nope lol
+  # nope lol
 # try 8 - definite lowest we  can go. - still 1 sig ME, but only 16 MEs total. underfit?
 # final test, power 10 -- 12 MEs, 0 sig -- overfit
 ### power 9 it is. Trust your gut. 
@@ -316,7 +316,6 @@ WGCNA Module Eigengenes")
 
 module.gene.mapping <- as.data.frame(bwnet$colors)
 
-
 ## FROM HERE, CAN PERFORM FURTHER ANALYSIS ON GENES IN IMPORTANT MODULES - the following lists the genes in relevant modules that are selected from above analysis to be modules that are differentially expressed between groups
 
 
@@ -393,58 +392,104 @@ colnames(gene.signf.corr.pvals2)[2] <- "gene.signif.corr.pval"
 MEallcolors2 <- left_join(MEallcolors, gene.signf.corr2, by = "symbol") %>% 
   left_join(., gene.signf.corr.pvals2, by = "symbol")
 
-# write.csv(MEallcolors2, "results/results_tables/MEallcolors_TREATMENT.csv")
+write.csv(MEallcolors2, "results/results_tables/MEallcolors_TREATMENT.csv")
 
 module.membership.measure2 <- as.data.frame(module.membership.measure)
 module.membership.measure2 <- tibble::rownames_to_column(module.membership.measure2, "module")
 
 
 
-# # salmon
-# MEsalmon <- MEallcolors2 %>% 
-#   filter(MEcolor == "salmon")
+# salmon
+MEsalmon <- MEallcolors2 %>% 
+  filter(MEcolor == "salmon")
+
+write.csv(MEsalmon, "results/MEsalmon.csv")
+
+
+MEsalmon.limma <- TREATMENT_limma_results1 %>% 
+  left_join(MEsalmon, by = "symbol") %>%
+  filter(!is.na(MEcolor)) %>% 
+  select(1,2,3,4,9,11,12)
+
+salmonlm <- lm(MEsalmon ~ treatment_bin, heatmap.data)
+summary(salmonlm)
+
+t.test(MEsalmon ~ treatment_bin, heatmap.data)
+
+source("functions/geom_boxjitter.R")
+heatmap.data3 <- heatmap.data
+heatmap.data3$treatment_bin <- as.factor(heatmap.data3$treatment_bin)
+heatmap.data3$treatment <- ifelse(heatmap.data3$treatment_bin == 0, "Oil", "OPFR")
+ggplot(aes(treatment, MEsalmon, fill = treatment), data = heatmap.data3)+
+  geom_boxjitter(outlier.color = NA, jitter.shape = 21, 
+                 alpha = 1,
+                 width = 0.5,
+                 jitter.height = 0.02, jitter.width = 0.02, errorbar.draw = TRUE,
+                 position = position_dodge(0.8)) +
+  scale_fill_manual(values=c("skyblue", "pink")) +
+  labs(title="Salmon Module",x="Treatment", y = "MEsalmon Value") +
+  theme_classic() +
+  theme(axis.line = element_line(colour = 'black', size = 1),
+        axis.ticks = element_line(colour = "black", size = 1),
+                legend.position="none",
+        axis.text=element_text(size=16),
+        axis.title=element_text(size=18,face="bold"),
+        plot.title = element_text(size=24, hjust = 0.4)) + 
+  annotate("text", x = 1.4, y = .6, label = "p = 0.03", size = 8)
+
+
+write.csv(MEsalmon.limma, "results/results_tables/TREATMENT_MEsalmon_limma.csv")
+
+
+## GO ANALYSIS OF salmon MODULE
+# gettop10GO_low_sensitivity(MEsalmon.limma, my_showCategory) %>% 
+#   mutate(comparison = "Oil - OPFR") -> GOterms_TREATMENT_salmon
+##### NOT WORKING
+## works with other modules 
+## LIKELY because module is too small
+## THUS, will simply report high MM genes in module and discuss their functions individually.
+
+## HIGHEST MM OF salmon MODULE
+MMsalmon <- module.membership.measure2 %>% 
+  filter(module == "MEsalmon") %>% 
+  gather(., symbol, MM)
+MMsalmon <- MMsalmon[-1,]
+MMsalmon2 <- grcm38 %>% 
+  select(symbol, chr, description) %>% 
+  left_join(.,MMsalmon, by = "symbol")
+  
+  
+MMsalmontop15 <- MMsalmon2 %>% 
+  arrange(desc(MM)) %>% 
+  head(15)
+
+write.csv(MMsalmontop15, "results/results_tables/MMsalmon15.csv")
+
+
+
+
+
+
+
+######## RETURN TO WHEN LOOKING AT ALL 6 PAIRWISES LATER!!! #########
+
+# binarize categorical variables 
+
+# colData$severity <- factor(colData$severity, levels = c("Healthy", "Convalescent", "ICU", "Moderate", "Severe"))
 # 
-# write.csv(MEsalmon, "results/MEsalmon.csv")
-
-
-# MEsalmon.limma <- TREATMENT_limma_results1 %>% 
-#   left_join(MEsalmon, by = "symbol") %>%
-#   filter(!is.na(MEcolor)) %>% 
-#   select(1,2,3,4,9,11,12)
+# severity.out <- binarizeCategoricalColumns(colData$severity,
+#                                            includePairwise = FALSE,
+#                                            includeLevelVsAll = TRUE,
+#                                            minCount = 1)
 # 
-# salmonlm <- lm(MEsalmon ~ treatment_bin, heatmap.data)
-# summary(salmonlm)
 # 
-# t.test(MEsalmon ~ treatment_bin, heatmap.data)
-# 
-# source("functions/geom_boxjitter.R")
-# heatmap.data3 <- heatmap.data
-# heatmap.data3$treatment_bin <- as.factor(heatmap.data3$treatment_bin)
-# heatmap.data3$treatment <- ifelse(heatmap.data3$treatment_bin == 0, "Oil", "OPFR")
-# ggplot(aes(treatment, MEsalmon, fill = treatment), data = heatmap.data3)+
-#   geom_boxjitter(outlier.color = NA, jitter.shape = 21, 
-#                  alpha = 1,
-#                  width = 0.5,
-#                  jitter.height = 0.02, jitter.width = 0.02, errorbar.draw = TRUE,
-#                  position = position_dodge(0.8)) +
-#   scale_fill_manual(values=c("skyblue", "pink")) +
-#   labs(title="Salmon Module",x="Treatment", y = "MEsalmon Value") +
-#   theme_classic() +
-#   theme(axis.line = element_line(colour = 'black', size = 1),
-#         axis.ticks = element_line(colour = "black", size = 1),
-#         legend.position="none",
-#         axis.text=element_text(size=16),
-#         axis.title=element_text(size=18,face="bold"),
-#         plot.title = element_text(size=24, hjust = 0.4)) + 
-#   annotate("text", x = 1.4, y = .6, label = "p = 0.03", size = 8)
+# traits <- cbind(traits, severity.out)
 
+### 6A part 2
 
+# module trait associations
 
-
-
-####
-
-
+# create traits file - binarize categorical variables
 
 traits <- colData %>% 
   mutate(treatment_bin = ifelse(grepl('OPFR', treatment), 1, 0)) %>% 
@@ -454,9 +499,9 @@ traits <- colData %>%
 colData$E_level_bin <- factor(colData$E_level, levels = c("M", "low", "high"))
 
 E_level.out <- binarizeCategoricalColumns(colData$E_level_bin,
-                                          includePairwise = TRUE,
-                                          includeLevelVsAll = FALSE,
-                                          minCount = 1)
+                                           includePairwise = TRUE,
+                                           includeLevelVsAll = FALSE,
+                                           minCount = 1)
 
 
 traits <- cbind(traits, E_level.out)
@@ -474,11 +519,9 @@ traits <- traits %>%
   mutate(rowname = rownames(colData)) %>%
   column_to_rownames("rowname")
 
-treattrait <- colData %>% 
-  mutate('OPFR_treatment' = ifelse(grepl('OPFR', treatment), 1, 0)) %>% 
-  select(7)
 
-traits <- cbind(treattrait, traits)
+
+
 
 
 # Define numbers of genes and samples
@@ -526,20 +569,109 @@ colnames(heatmap.data2) <- new_column_names
 names(heatmap.data2)
 
 
-#1400x800
+
 CorLevelPlot(heatmap.data2,
-             x = names(heatmap.data2)[15:21],
+             x = names(heatmap.data2)[15:20],
              y = names(heatmap.data2)[1:14],
              col = c("skyblue", "lightblue", "white", "pink", "hotpink"),
-             main = "WGCNA Module Eigengene Comparisons",
-             fontCorval = 2,
-             cexCorval = 1.6,
-             cexLabY = 1.5,
-             cexLabX = 1.5)
+             main = "B. All Comparisons
+WGCNA Module Eigengenes")
 
 
 
 module.gene.mapping <- as.data.frame(bwnet$colors)
 
 
+
+# Calculate the module membership and the associated p-values
+
+# The module membership/intramodular connectivity is calculated as the correlation of the eigengene and the gene expression profile. 
+# This quantifies the similarity of all genes on the array to every module.
+
+module.membership.measure <- cor(module_eigengenes, norm.counts, use = 'p')
+module.membership.measure.pvals <- corPvalueStudent(module.membership.measure, nSamples)
+
+module.membership.measure[1:10,1:10]
+module.membership.measure.pvals[1:10,1:10] # just a check that this ran right
+
+# Calculate the gene significance and associated p-values
+#correlate expression data with trait of interest - FOR ME, JUST stress_bin
+
+gene.signf.corr <- cor(norm.counts, traits$treatment_bin, use = 'p')
+gene.signf.corr.pvals <- corPvalueStudent(gene.signf.corr, nSamples)
+
+
+gene.signf.corr.pvals %>% 
+  as.data.frame() %>% 
+  arrange(1) %>% 
+  head(25)
+
+
+
+# The pink module is higher in OPFR males
+
+MEpink <- MEallcolors2 %>% 
+  filter(MEcolor == "pink")
+
+write.csv(MEpink, "results/MEpink.csv")
+
+
+MMpink <- module.membership.measure2 %>% 
+  filter(module == "MEpink") %>% 
+  gather(., symbol, MM)
+MMpink2 <- MMpink[-1,]
+MMpink2 <- grcm38 %>% 
+  select(symbol, chr, description) %>% 
+  left_join(.,MMpink2, by = "symbol") %>% 
+  filter(MM < 1)
+
+
+MMpink15 <- MMpink2 %>% 
+  arrange(desc(MM)) %>% 
+  head(15)
+
+write.csv(MMpink15, "results/results_tables/MMpink15.csv")
+
+
+# The black module is lower in Oil high E females 
+
+MEblack <- MEallcolors2 %>% 
+  filter(MEcolor == "black")
+
+write.csv(MEblack, "results/MEblack.csv")
+
+MMblack <- module.membership.measure2 %>% 
+  filter(module == "MEblack") %>% 
+  gather(., symbol, MM)
+MMblack2 <- MMblack[-1,]
+MMblack2 <- grcm38 %>% 
+  select(symbol, chr, description) %>% 
+  left_join(.,MMblack2, by = "symbol") %>% 
+  filter(MM < 1)
+
+
+MMblack15 <- MMblack2 %>% 
+  arrange(desc(MM)) %>% 
+  head(15)
+
+
+write.csv(MMblack15, "results/results_tables/MMblack15.csv")
+
+
+
+
+
+
+# gonna need numbers for these -- module membership - salmon, pink, black
+
+lms <- lm(MEsalmon ~ treatment_bin, heatmap.data_TREAT_only)
+summary(lms)
+
+lmp <- lm(MEpink ~ OPFR_M, heatmap.data)
+summary(lmp)
+
+lmb <- lm(MEblack ~ Oil_high, heatmap.data)
+summary(lmb)
+
+# correlation.one <- cor(data$x[data$category=="One"], data$y[data$category=="One"], method = 'pearson')
 
