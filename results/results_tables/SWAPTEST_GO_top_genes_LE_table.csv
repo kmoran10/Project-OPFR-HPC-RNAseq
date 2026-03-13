@@ -1,0 +1,21 @@
+direction,geneID,chr,gene_count,gene_description,logFC,P.Value
+Down,Gsk3b,16,59,glycogen synthase kinase 3 beta,0.2334,0.027
+Down,Pten,19,54,phosphatase and tensin homolog,0.2228,0.183
+Down,Actr3,1,49,ARP3 actin-related protein 3,0.1020,0.317
+Down,Wnt5a,14,47,"wingless-type MMTV integration site family, member 5A",0.3750,0.018
+Down,Ephb2,4,44,Eph receptor B2,0.0160,0.888
+Down,Pafah1b1,11,42,"platelet-activating factor acetylhydrolase, isoform 1b, subunit 1",0.1199,0.148
+Down,Slit2,5,42,slit guidance ligand 2,0.2978,0.295
+Down,Sema4d,13,40,"sema domain, immunoglobulin domain (Ig), transmembrane domain (TM) and short cytoplasmic domain, (semaphorin) 4D",0.1902,0.130
+Down,Dbn1,13,39,drebrin 1,0.0285,0.825
+Down,Mtor,4,39,mechanistic target of rapamycin kinase,0.0974,0.448
+Up,Ndufa13,8,42,NADH:ubiquinone oxidoreductase subunit A13,-0.2527,0.335
+Up,Ndufs3,2,39,NADH:ubiquinone oxidoreductase core subunit S3,-0.2595,0.235
+Up,Prkn,17,39,parkin RBR E3 ubiquitin protein ligase,-0.4617,0.246
+Up,Ndufs2,1,37,NADH:ubiquinone oxidoreductase core subunit S2,-0.0656,0.517
+Up,Ndufs8,19,37,NADH:ubiquinone oxidoreductase core subunit S8,-0.2770,0.292
+Up,Myc,15,36,myelocytomatosis oncogene,-0.0371,0.838
+Up,Ndufa10,1,36,NADH:ubiquinone oxidoreductase subunit A10,-0.1898,0.345
+Up,Ndufa12,10,36,NADH:ubiquinone oxidoreductase subunit A12,-0.1198,0.626
+Up,Ndufa8,2,36,NADH:ubiquinone oxidoreductase subunit A8,-0.0898,0.713
+Up,Ndufb6,4,36,NADH:ubiquinone oxidoreductase subunit B6,-0.2159,0.212

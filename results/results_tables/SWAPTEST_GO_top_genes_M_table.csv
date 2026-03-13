@@ -1,0 +1,21 @@
+"direction","geneID","chr","gene_count","gene_description","logFC","P.Value"
+"Down","Npm1","11",43,"nucleophosmin 1",0.132217963006571,0.1356
+"Down","Hnrnpu","1",33,"heterogeneous nuclear ribonucleoprotein U",0.0831016570734011,0.442
+"Down","Akt1","12",30,"thymoma viral proto-oncogene 1",0.00433864961755859,0.9624
+"Down","Myc","15",29,"myelocytomatosis oncogene",0.157438621168304,0.1836
+"Down","Ncbp1","4",27,"nuclear cap binding protein subunit 1",0.0459491510172425,0.522
+"Down","Pml","9",27,"promyelocytic leukemia",0.0412846192858343,0.622
+"Down","Snca","6",27,"synuclein, alpha",0.093766685299272,0.468
+"Down","Trp53","11",26,"transformation related protein 53",0.144947028053171,0.0316
+"Down","Prkdc","16",25,"protein kinase, DNA activated, catalytic polypeptide",0.0215833295489931,0.9216
+"Down","Prkn","17",25,"parkin RBR E3 ubiquitin protein ligase",0.0872275414365147,0.742
+"Up","Pten","19",59,"phosphatase and tensin homolog",-0.0318388402396197,0.8
+"Up","Gsk3b","16",46,"glycogen synthase kinase 3 beta",-0.027097055788758,0.8004
+"Up","Abl1","2",43,"c-abl oncogene 1, non-receptor tyrosine kinase",-0.0496313853701542,0.5472
+"Up","Mtor","4",41,"mechanistic target of rapamycin kinase",-0.106966101092175,0.1296
+"Up","Wnt5a","14",41,"wingless-type MMTV integration site family, member 5A",-0.128762254640334,0.2356
+"Up","Slit2","5",39,"slit guidance ligand 2",-0.0603606799486354,0.8048
+"Up","Itgb1","8",38,"integrin beta 1 (fibronectin receptor beta)",-0.0892951909035595,0.456
+"Up","Tgfb1","7",38,"transforming growth factor, beta 1",-0.222460674093683,0.2308
+"Up","Ctnnb1","9",36,"catenin (cadherin associated protein), beta 1",-0.03199585875028,0.6744
+"Up","Lrp1","10",36,"low density lipoprotein receptor-related protein 1",-0.0581893706536132,0.7108

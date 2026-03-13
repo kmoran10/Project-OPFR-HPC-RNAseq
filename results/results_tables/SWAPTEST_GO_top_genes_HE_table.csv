@@ -1,0 +1,23 @@
+"direction","geneID","chr","gene_count","gene_description","logFC","P.Value"
+"Down","Prkn","17",47,"parkin RBR E3 ubiquitin protein ligase",0.401372232418922,0.3836
+"Down","Ndufa13","8",41,"NADH:ubiquinone oxidoreductase subunit A13",0.291975966285755,0.5
+"Down","Vcp","4",39,"valosin containing protein",0.111652315504504,0.1352
+"Down","Akt1","12",36,"thymoma viral proto-oncogene 1",0.128132355164922,0.5332
+"Down","Flcn","11",35,"folliculin",0.00297606400097195,0.9784
+"Down","Ndufab1","7",35,"NADH:ubiquinone oxidoreductase subunit AB1",0.231399623293144,0.1964
+"Down","Ndufa12","10",34,"NADH:ubiquinone oxidoreductase subunit A12",0.1812791130633,0.5036
+"Down","Ndufa6","15",34,"NADH:ubiquinone oxidoreductase subunit A6",0.154775136314858,0.5168
+"Down","Ndufb4","16",34,"NADH:ubiquinone oxidoreductase subunit B4",0.042525403827109,0.856
+"Down","Ndufb4","16",34,"NADH:ubiquinone oxidoreductase subunit B4",0.042525403827109,0.856
+"Down","Ndufb4","16",34,"NADH:ubiquinone oxidoreductase subunit B4",0.042525403827109,0.856
+"Down","Ndufs2","1",34,"NADH:ubiquinone oxidoreductase core subunit S2",0.104535100497968,0.202
+"Up","Gsk3b","16",50,"glycogen synthase kinase 3 beta",-0.225398264703111,0.346
+"Up","Pten","19",50,"phosphatase and tensin homolog",-0.139300358189863,0.6308
+"Up","Wnt5a","14",46,"wingless-type MMTV integration site family, member 5A",-0.322640589843271,0.1584
+"Up","Nrp1","8",44,"neuropilin 1",-0.0946169738301039,0.2492
+"Up","Mtor","4",43,"mechanistic target of rapamycin kinase",-0.13226254332001,0.4264
+"Up","Ctnnb1","9",39,"catenin (cadherin associated protein), beta 1",-0.0550591273931644,0.4896
+"Up","Tgfb1","7",39,"transforming growth factor, beta 1",-0.278642010316304,0.4812
+"Up","Actr3","1",37,"ARP3 actin-related protein 3",-0.0418445134688561,0.8508
+"Up","App","16",37,"amyloid beta (A4) precursor protein",-0.194124992747804,0.5804
+"Up","Lrp1","10",37,"low density lipoprotein receptor-related protein 1",-0.0446092605085493,0.8072

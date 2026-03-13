@@ -1,7 +1,7 @@
 my_ont = "BP"
 my_showCategory = 100
 
-gettop10GO <- function(limma_df,my_showCategory = 100){
+SWAPTEST_gettop10GO <- function(limma_df,my_showCategory = 100){
   go_df_up <- limma_df %>% 
     filter(logFC<0) %>% 
     left_join(grcm38 %>% dplyr::select(symbol, entrez)) %>% 

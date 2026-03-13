@@ -36,3 +36,61 @@ library(tidyverse)
 TREAT <- readRDS("results/TREATMENT_limma_results.RDS")
 
 TREAT %>% filter(symbol == "Gabra1")
+
+
+
+###### Top GO-related genes 
+
+### GO Top Genes -- Low E-level
+mgenes <- grcm38 # mouse genes
+
+treatgo.all <- read.csv("results/results_tables/SWAPTEST_top100_GOterms_TREATMENT.csv")
+
+# First, process the treatgo data as before
+gene_counts.all <- treatgo.all %>%
+  separate_rows(geneID, sep = "/") %>%
+  count(direction, geneID, name = "gene_count") %>%
+  arrange(direction, desc(gene_count)) %>%
+  group_by(direction) %>%
+  mutate(rank = row_number()) %>%
+  ungroup()
+
+# Join with mgenes to get the gene descriptions
+result_with_desc.all <- gene_counts.all %>%
+  # Join with mgenes using geneID = symbol
+  left_join(
+    mgenes %>% select(symbol, gene_description = description),
+    by = c("geneID" = "symbol")
+  ) %>%
+  # Now join with original data to get the treatgo descriptions
+  left_join(
+    treatgo.all %>%
+      separate_rows(geneID, sep = "/") %>%
+      select(direction, geneID, treatgo_description = Description),
+    by = c("direction", "geneID")
+  ) %>%
+  # Group and combine the treatgo descriptions
+  group_by(direction, geneID, gene_count, rank, gene_description) %>%
+  summarise(
+    treatgo_descriptions = paste(unique(treatgo_description), collapse = "; "),
+    .groups = "drop"
+  ) %>%
+  # Keep only top genes
+  filter(rank <= 10) %>%
+  arrange(direction, desc(gene_count))
+
+result_with_desc.all
+
+
+GO_top_genes.all <- result_with_desc.all %>%
+  mutate(
+    treat_data = map(geneID, ~ TREAT %>% filter(symbol == .x))
+  )%>%
+  unnest(treat_data, keep_empty = TRUE)
+
+SWAPTEST_GO_top_genes_ALL_table <- GO_top_genes.all %>% 
+  select(1,2,10,3,5,8,9)
+
+write.csv(SWAPTEST_GO_top_genes_ALL_table,"results/results_tables/SWAPTEST_GO_top_genes_ALL_table.csv", row.names = F)
+
+

@@ -1,0 +1,21 @@
+direction,geneID,chr,gene_count,gene_description,logFC,P.Value
+Down,Vcp,4,43,valosin containing protein,0.0204,0.645
+Down,Prkn,17,42,parkin RBR E3 ubiquitin protein ligase,0.0453,0.839
+Down,Ndufa13,8,36,NADH:ubiquinone oxidoreductase subunit A13,0.0210,0.891
+Down,Flcn,11,32,folliculin,0.0392,0.493
+Down,Myc,15,32,myelocytomatosis oncogene,0.0244,0.795
+Down,Npm1,11,32,nucleophosmin 1,0.0219,0.725
+Down,Parp1,1,31,"poly (ADP-ribose) polymerase family, member 1",0.0803,0.132
+Down,Ppargc1a,5,31,"peroxisome proliferative activated receptor, gamma, coactivator 1 alpha",0.0033,0.976
+Down,Snca,6,31,"synuclein, alpha",0.0123,0.891
+Down,Akt1,12,30,thymoma viral proto-oncogene 1,0.0184,0.843
+Up,Wnt5a,14,47,"wingless-type MMTV integration site family, member 5A",-0.0489,0.653
+Up,Nrp1,8,45,neuropilin 1,-0.0067,0.892
+Up,Tgfb1,7,44,"transforming growth factor, beta 1",-0.1849,0.307
+Up,Vegfa,17,41,vascular endothelial growth factor A,-0.0466,0.722
+Up,App,16,40,amyloid beta (A4) precursor protein,-0.0916,0.327
+Up,Ctnnb1,9,40,"catenin (cadherin associated protein), beta 1",-0.0208,0.613
+Up,Gsk3b,16,40,glycogen synthase kinase 3 beta,-0.0169,0.850
+Up,Mtor,4,39,mechanistic target of rapamycin kinase,-0.0535,0.438
+Up,Nf1,11,39,neurofibromin 1,-0.0213,0.696
+Up,Rac1,5,38,Rac family small GTPase 1,-0.0013,0.981
